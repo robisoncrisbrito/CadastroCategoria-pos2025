@@ -31,8 +31,9 @@ class MainActivity : AppCompatActivity() {
 
     fun btIncluirOnClick(view: View) {
 
-        try {
-            lifecycleScope.launch(Dispatchers.IO) {
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
                 val id = etId.text.toString().toInt()
                 val nome = etNome.text.toString()
 
@@ -47,22 +48,23 @@ class MainActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-            }
-        } catch (ex: Exception) {
-            lifecycleScope.launch(Dispatchers.Main) {
-                Toast.makeText(
-                    this@MainActivity,
-                    "Erro ao salvar categoria",
-                    Toast.LENGTH_SHORT
-                ).show()
+
+            } catch (ex: Exception) {
+                lifecycleScope.launch(Dispatchers.Main) {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Erro ao salvar categoria",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
-    }//fim do método incluir
-
+    }
 
     fun btAlterarOnClick(view: View) {
-        try {
-            lifecycleScope.launch(Dispatchers.IO) {
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
                 val id = etId.text.toString().toInt()
                 val nome = etNome.text.toString()
 
@@ -77,21 +79,23 @@ class MainActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-            }
-        } catch (ex: Exception) {
-            lifecycleScope.launch(Dispatchers.Main) {
-                Toast.makeText(
-                    this@MainActivity,
-                    "Erro ao salvar categoria",
-                    Toast.LENGTH_SHORT
-                ).show()
+
+            } catch (ex: Exception) {
+                lifecycleScope.launch(Dispatchers.Main) {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Erro ao salvar categoria",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }
 
     fun btExcluirOnClick(view: View) {
-        try {
-            lifecycleScope.launch(Dispatchers.IO) {
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
                 val id = etId.text.toString().toInt()
 
                 ApiCategoria.retrofitService.delete(id)
@@ -103,17 +107,17 @@ class MainActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-            }
-        } catch (ex: Exception) {
-            lifecycleScope.launch(Dispatchers.Main) {
-                Toast.makeText(
-                    this@MainActivity,
-                    "Erro ao excluir categoria",
-                    Toast.LENGTH_SHORT
-                ).show()
+
+            } catch (ex: Exception) {
+                lifecycleScope.launch(Dispatchers.Main) {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Erro ao excluir categoria",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
-
     }
 
     fun btPesquisarOnClick(view: View) {
@@ -161,5 +165,31 @@ class MainActivity : AppCompatActivity() {
 
     fun btListarOnClick(view: View) {
 
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val categorias = ApiCategoria.retrofitService.findAll()
+
+                lifecycleScope.launch(Dispatchers.Main) {
+
+                    for (categoria in categorias) {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "${categoria.id} - ${categoria.nome}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            } catch (ex: Exception) {
+                lifecycleScope.launch(Dispatchers.Main) {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Erro ao excluir categoria",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+        }
     }
 }
